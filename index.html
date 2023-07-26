@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music player project.</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://kit.fontawesome.com/b3fb7e015b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="music-player">
+            <nav>
+                <div class="circle">
+                    <i class="fa-solid fa-angle-left"></i>
+                </div>
+                <div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+            <img src="images/don-edward.jpg" class="songImg">
+            <h1>You alone</h1>
+            <p>Don moen ft. frank Edward</p>
+            <audio id="song">
+                <!-- the controls attribute makes the default progress
+                bar and timer visible -->
+                <source src="media/Don-Moen.mp3" type="audio/mpeg">
+            </audio>
+            <input type="range" value="0" id="progress">
+
+
+            <div class="controls">
+                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="playPause()"><i class="fa-solid fa-play" id="contrIcon"></i></div>
+                <div><i class="fa-solid fa-forward"></i></div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        let progress = document.getElementById("progress");
+        let song = document.getElementById("song");
+        let contrIcon = document.getElementById('contrIcon');
+
+        song.onloadedmetadata = function (){
+            progress.max = song.duration;
+            progress.value = song.currentTime;
+        }
+        //change the icon of the contrIcon from play div to pause.
+        //so we create a playPause function()......
+
+        function playPause(){
+           if (contrIcon.classList.contains("fa-pause")){
+                song.pause();
+                contrIcon.classList.remove("fa-pause");
+                contrIcon.classList.add("fa-play");
+           } 
+           else{
+            song.play();
+            contrIcon.classList.remove("fa-play");
+            contrIcon.classList.add("fa-pause");
+           }
+        }
+
+        //The function worked, but the progress bar didnt change thats because we
+        // asked it to
+        if (song.play()){
+            setInterval(()=>{
+                progress.value = song.currentTime
+            },500);
+        }
+
+        //let update the progress bar so that when we click on anywhere
+        // it plays the currentTime of the song and alson changes the 
+        // classlist icon from play to pause
+
+        progress.onchange = function(){
+            song.play();
+            song.currentTime = progress.value;
+            contrIcon.classList.remove("fa-play");
+            contrIcon.classList.add("fa-pause");
+        }
+
+    </script>
+</body>
+</html>
+
